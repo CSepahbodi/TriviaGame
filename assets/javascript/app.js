@@ -154,6 +154,5 @@ var trivia = {
         $('.option').remove();
         $('#results h3').remove();
         trivia.nextQuestion();
-
     }
 }
