@@ -1,13 +1,8 @@
-
 $(document).ready(function () {
-
-    // event listeners
     $("#remaining-time").hide();
     $("#start").on('click', trivia.startGame);
     $(document).on('click', '.option', trivia.guessChecker);
-
 })
-
 var trivia = {
     // set the properties of the game for number of correct, incorrect, unanswered, as well as the timer.
     correct: 0,
@@ -17,8 +12,7 @@ var trivia = {
     timer: 20,
     timerOn: false,
     timerId: '',
-
-    // 
+    // The trivia questions to be displayed in the jumbotron!
     questions: {
         q1: 'What is the only mammal that can truly fly?',
         q2: 'Ice hockey pucks are made from what material??',
@@ -30,9 +24,8 @@ var trivia = {
         q8: "What is the tallest mountain in South America?",
         q9: "What is the world’s largest coral reef system?",
         q10: "Atlantis, Paradise Island is a famous resort located on which country’s coral based archipelago?"
-
     },
-
+    // The possible answers to the trivia questions to be displayed immediately below the question.
     options: {
         q1: ['bat', 'howler monkey', 'bird', 'dog'],
         q2: ['my soul', 'vulcanized rubber', 'iron', 'elephant tusk'],
@@ -45,7 +38,7 @@ var trivia = {
         q9: ['Apo Reef', 'Amazon Reef', 'The Great Barrier Reef', 'Mesoamerican Reef'],
         q10: ['Haiti', 'Japan', 'India', 'The Bahamas']
     },
-
+    //answers to the multiple choice qustions. These answers will be displayed if the question is answered wrong or if left unanswered.
     answers: {
         q1: 'bat',
         q2: 'vulcanized rubber',
@@ -57,64 +50,52 @@ var trivia = {
         q8: 'Mount Aconcagua',
         q9: 'The Great Barrier Reef',
         q10: 'The Bahamas'
-    
     },
     // Start the game by pushing the button!
     startGame: function () {
-        // reinitialize the games results back to zero and clear the timer!
+        // initialize the games results back to zero and clear the timer!
         trivia.currentSet = 0;
         trivia.correct = 0;
         trivia.incorrect = 0;
         trivia.unanswered = 0;
         clearInterval(trivia.timerId);
-
-        // Using Jquery to show the game contentsshow game section
+        // Using Jquery to show the game contents in the game section of the jumbotron
         $('#game').show();
-
         //  make the last results empty out of the box
         $('#results').html('');
-
-        // Using Jquery to show the timer and make it appear in the correct div.
+        // Use Jquery to show the timer and make it appear in the correct div.
         $('#timer').text(trivia.timer);
-
         // once the game has started remove the start button.
         $('#start').hide();
-
+        //And show the remaining time for the user to guess at the question.
         $('#remaining-time').show();
-
-        // ask first question
+        // calling the function for the next question to appear.
         trivia.nextQuestion();
-
     },
-    // method to loop through and display questions and options 
+        // function for trivia questions to appear one after the other. 
     nextQuestion: function () {
-
-        // set timer to 20 seconds each question
-        trivia.timer = 10;
+        // initiate the timer for each question- 15 seconds per question.
+        trivia.timer = 15;
         $('#timer').removeClass('last-seconds');
         $('#timer').text(trivia.timer);
-
-        // to prevent timer speed up
+        // setting the interval on the timer to count down 1 second at a time.
         if (!trivia.timerOn) {
             trivia.timerId = setInterval(trivia.timerRunning, 1000);
         }
-
-        // gets all the questions then indexes the current questions
+        // variable to obtain all of the questions
         var questionContent = Object.values(trivia.questions)[trivia.currentSet];
+        // place the question into the div for the question content.
         $('#question').text(questionContent);
-
-        // an array of all the user options for the current question
+        // create an array for the multiple choice answers so that the user can answer the currently displayed question.
         var questionOptions = Object.values(trivia.options)[trivia.currentSet];
-
-        // creates all the trivia guess options in the html
+        // creates each possible answer as an html button.
         $.each(questionOptions, function (index, key) {
             $('#options').append($('<button class="option btn btn-info btn-lg">' + key + '</button>'));
         })
-
     },
-    // method to decrement counter and count unanswered if timer runs out
+    // Now a function to decrease the timer at 1 second while the user is attempting to answer the question.
+    // If the timer runs out while the user is attempting to guess this function will also log the answer as unanswered.
     timerRunning: function () {
-        // if timer still has time left and there are still questions left to ask
         if (trivia.timer > -1 && trivia.currentSet < Object.keys(trivia.questions).length) {
             $('#timer').text(trivia.timer);
             trivia.timer--;
@@ -122,77 +103,56 @@ var trivia = {
                 $('#timer').addClass('last-seconds');
             }
         }
-        // the time has run out and increment unanswered, run result
         else if (trivia.timer === -1) {
             trivia.unanswered++;
             trivia.result = false;
             clearInterval(trivia.timerId);
             resultId = setTimeout(trivia.guessResult, 1000);
-            $('#results').html('<h3>Out of time! The answer was ' + Object.values(trivia.answers)[trivia.currentSet] + '</h3>');
+            $('#results').html('<h3>You fool! You have run out of time! The answer was ' + Object.values(trivia.answers)[trivia.currentSet] + '</h3>');
         }
-        // if all the questions have been shown end the game, show results
         else if (trivia.currentSet === Object.keys(trivia.questions).length) {
-
-            // adds results of game (correct, incorrect, unanswered) to the page
+            // The results of the game aggregated and displayed to the results div once the game has been completed.
             $('#results')
-                .html('<h3>Thank you for playing!</h3>' +
-                    '<p>Correct: ' + trivia.correct + '</p>' +
-                    '<p>Incorrect: ' + trivia.incorrect + '</p>' +
-                    '<p>Unaswered: ' + trivia.unanswered + '</p>' +
-                    '<p>Please play again!</p>');
-
-            // hide game sction
+                .html('<h3>Not bad... </h3>' +
+                    '<p>Questions correctly answered: ' + trivia.correct + '</p>' +
+                    '<p>Questions incorrectly answered: ' + trivia.incorrect + '</p>' +
+                    '<p>Doh! Questions that you did not answer: ' + trivia.unanswered + '</p>' +
+                    '<p>Play again??</p>');
+            // once the results have been displayed and the game is complete, remove the game contents and then....
             $('#game').hide();
-
-            // show start button to begin a new game
+            // display the start button again so that user can play again.
             $('#start').show();
         }
-
     },
-    // method to evaluate the option clicked
+    // this function allows the game to match the user's answer and decide if it is correct or incorrect. 
     guessChecker: function () {
-
-        // timer ID for gameResult setTimeout
         var resultId;
-
-        // the answer to the current question being asked
         var currentAnswer = Object.values(trivia.answers)[trivia.currentSet];
-
-        // if the text of the option picked matches the answer of the current question, increment correct
+        // if user's choice is correct, then log the status of the question.
         if ($(this).text() === currentAnswer) {
             // turn button green for correct
             $(this).addClass('btn-success').removeClass('btn-info');
 
+            //increment the correct questions answered.
             trivia.correct++;
             clearInterval(trivia.timerId);
             resultId = setTimeout(trivia.guessResult, 1000);
-            $('#results').html('<h3>Correct Answer!</h3>');
+            $('#results').html('<h3>Well done, my young padawan! You have chosen wisely!</h3>');
         }
-        // else the user picked the wrong option, increment incorrect
         else {
-            // turn button clicked red for incorrect
             $(this).addClass('btn-danger').removeClass('btn-info');
-
             trivia.incorrect++;
             clearInterval(trivia.timerId);
             resultId = setTimeout(trivia.guessResult, 1000);
-            $('#results').html('<h3>Better luck next time! ' + currentAnswer + '</h3>');
+            $('#results').html('<h3>You fool! You answered incorrectly! The right answer was... ' + currentAnswer + '</h3>');
         }
-
     },
-    // method to remove previous question results and options
+    // this function is to move on to the next question once the previous question has been attempted by the user...
     guessResult: function () {
-
-        // increment to next question set
         trivia.currentSet++;
-
-        // remove the options and results
         $('.option').remove();
         $('#results h3').remove();
-
-        // begin next question
         trivia.nextQuestion();
 
     }
-
 }
