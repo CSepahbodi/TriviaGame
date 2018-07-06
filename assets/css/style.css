@@ -1,16 +1,26 @@
 body {
-    background-image: url();
+    background-image: url("../images/full-bloom.png");
     text-align: center;
 }
 
 .text-muted {
     color: purple;
+    font-family: "Times New Roman", Times, sans-serif;
+    font-weight: bold;
+    font-size: 60px;
 }
 
 .last-seconds {
-    color: red;
+    color: Red;
 }
 
 .option {
     margin: 15px;
+    color: white;
+    font-family: "Times New Roman", Times, sans-serif;
+    font-weight: bold;
+}
+
+.jumbotron {
+    background-image: url("../images/sun-pattern.png")
 }

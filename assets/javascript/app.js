@@ -107,7 +107,7 @@ var trivia = {
             trivia.unanswered++;
             trivia.result = false;
             clearInterval(trivia.timerId);
-            resultId = setTimeout(trivia.guessResult, 1000);
+            resultId = setTimeout(trivia.guessResult, 3000);
             $('#results').html('<h3>You fool! You have run out of time! The answer was ' + Object.values(trivia.answers)[trivia.currentSet] + '</h3>');
         }
         else if (trivia.currentSet === Object.keys(trivia.questions).length) {
@@ -133,17 +133,18 @@ var trivia = {
             // turn button green for correct
             $(this).addClass('btn-success').removeClass('btn-info');
 
-            //increment the correct questions answered.
+            //when an answer is correct....
             trivia.correct++;
             clearInterval(trivia.timerId);
-            resultId = setTimeout(trivia.guessResult, 1000);
+            resultId = setTimeout(trivia.guessResult, 3000);
             $('#results').html('<h3>Well done, my young padawan! You have chosen wisely!</h3>');
         }
         else {
+            //when an answer is not correct...
             $(this).addClass('btn-danger').removeClass('btn-info');
             trivia.incorrect++;
             clearInterval(trivia.timerId);
-            resultId = setTimeout(trivia.guessResult, 1000);
+            resultId = setTimeout(trivia.guessResult, 3000);
             $('#results').html('<h3>You fool! You answered incorrectly! The right answer was... ' + currentAnswer + '</h3>');
         }
     },
