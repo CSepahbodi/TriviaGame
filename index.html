@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Trivia Game</title>
+
+    <!-- Bootstrap link-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!--my stylesheet link-->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+</head>
+
+<body>
+    
+    <!--this container is for the game's contents-->
+    <div class="container">
+        
+        <!--Header to introduce the game-->
+        <div class="header text-center clearfix">
+            <h1 class="text-muted">Trivia Game</h1>
+        </div>
+
+        <!--Directions-->
+        <div class="container-fluid">
+            <h2>Directions</h2>
+            <p>This is a basic trivia game. You have ten seconds to answer the multiple choice question before the timer runs out.</p>
+        </div>
+
+        <!--container for the trivia questions and possible answers -->
+        <div class="jumbotron jumbotron-fluid">
+            
+            <!--container for game timer-->
+            <div class="container">
+                
+                <div id="game">
+                    <p id="remaining-time" class="lead">Remaining Time: <span id="timer"></span></p>
+                    <p id="question" class="lead"></p>
+                </div>
+                
+                <!--container for the results-->
+                <div id="results">
+                </div>
+
+            </div>
+
+            <!--container for the answers that the user must pick-->
+            <div class="row">
+                
+                <div id="choices" class="text-center">
+                    
+                    <!--start button for the game-->
+                    <button id="start" class="btn btn-info btn-lg">Start Game</button>
+
+                    <!--game choices-->
+                    <div id="options">
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+        <!-- jQuery CDN-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <!-- Bootstrap CDN -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <!--my javascript script link-->
+        <script src="assets/javascript/app.js"></script>
+
+
+</body>
+</html>
